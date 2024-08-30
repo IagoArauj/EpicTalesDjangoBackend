@@ -3,6 +3,7 @@ from .views import *
 
 urlpatterns = [
     path('', get_paginated_campaigns, name='get_paginated_campaigns'),
+    path('ongoing/', get_3_ongoing_campaign, name='get_3_ongoing_campaign'),
     path('create/', create_campaign, name='create_campaign'),
     path('<int:id>/', campaign_detail, name='campaign_detail'),
     path('<int:campaign_id>/notes/', get_paginated_notes, name='get_paginated_notes'),

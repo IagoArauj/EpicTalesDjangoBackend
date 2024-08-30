@@ -32,5 +32,5 @@ def generate_response(request: Request) -> Response:
         print(f"{ai_model.user_input} -> {ai_model.response}")
         
         ai_model.save()
-        return Response({'response': response}, status=status.HTTP_200_OK)
+        return Response({'response': response, 'timestamp': ai_model.created_at}, status=status.HTTP_200_OK)
     return Response({'response': 'Invalid request'}, status=status.HTTP_400_BAD_REQUEST)

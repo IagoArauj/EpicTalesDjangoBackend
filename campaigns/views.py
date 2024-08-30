@@ -20,8 +20,11 @@ def get_paginated_campaigns(request: Request) -> Response:
             'error': 'Invalid limit or offset'
         }, status=status.HTTP_400_BAD_REQUEST)
 
-    campaigns = Campaign.objects.all().order_by('-id')[offset:limit+offset]
+    campaigns = Campaign.objects.all().order_by('-id').order_by('-status')[offset:limit+offset]
     (count, pages, next_link, prev_link) = gen_pagination_links(request, Campaign, limit, offset)
+    
+    for campaign in campaigns:
+        campaign.description = " ".join(campaign.description.split()[:10]) + " [...]" if len(campaign.description.split()) > 10 else campaign.description
     
     return Response({
         'count': count,
@@ -30,7 +33,17 @@ def get_paginated_campaigns(request: Request) -> Response:
         'previous_page': prev_link,
         'results': CampaignSerializer(campaigns, many=True).data
     }, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def get_3_ongoing_campaign(request: Request) -> Response:
+    campaigns = Campaign.objects.filter(status='ONGOING').order_by('-id')[:3]
     
+    for campaign in campaigns:
+        campaign.description = " ".join(campaign.description.split()[:20]) + " [...]" if len(campaign.description) > 20 else campaign.description
+    
+    return Response(CampaignSerializer(campaigns, many=True).data, status=status.HTTP_200_OK)
+    
+
 @api_view(['POST'])
 def create_campaign(request: Request) -> Response:
     campaign = CampaignSerializer(data=request.data)

@@ -9,7 +9,7 @@ from langchain_core.output_parsers import StrOutputParser
 class AIBuilder:
     @staticmethod
     def get_response(model = 'llama3-70b-8192', temperature = 0.5, input = ''):
-        base_url = 'https://b94a-179-108-239-250.ngrok-free.app'
+        base_url = 'https://beb6-200-17-66-254.ngrok-free.app'
         persist_directory = './aimodule/chroma_db'
 
         embeddings = OllamaEmbeddings(model="mxbai-embed-large", base_url=base_url)
@@ -18,17 +18,16 @@ class AIBuilder:
 
         prompt = ChatPromptTemplate.from_template("""
         [INST]
-        You are a squire in a Dungeons and Dragons campaign, you need to respond by embodying this role.
-
-        If you need to use bold text or italics, et cetera, use HTML tags for that, not markdown tags. Example: "#" will turn into <b></b> tags.
+        You are a squire named "Squire" in a Dungeons and Dragons campaign, you need to respond by embodying this role.
 
         You will answer the question about monsters, items and spells based on given context in this role setted for you.
         If the question is about something creative, like giving ideas to NPCs for a campaign, names, describe cities et cetera,
         you can ignore the context and the following instructions.
 
-        The context given to you will be a set of 'key: value' parameters, separated by '\n'. The 'name' and 'slug'
+        The context given to you will be a set of 'key: value' parameters, separated by '\\n'. The 'name' and 'slug'
         must me treated as the name. You can describe all relevant occurrences on the subject, separating them into a list.
-        Make a summary of all the information, including dice, properties et cetera, but not display de keys directly, you are a human speaking to another.
+        Make a summary of all the information, including dice, properties et cetera, but not display de keys or the context directly,
+        you are a human speaking to another.
 
         Separate weapons, magic items, spells, armors and monsters, since they are different subjects. This information can be obtained in the
         "metadata.source" field, it can ended by:
@@ -39,7 +38,7 @@ class AIBuilder:
             - spells.csv: Spells book
         Separate your text in this 5 categories.
 
-        Do not cite the word "context" or "Based on the provided context", just start with "Here is the information about the (insert the subject)".
+        Do not cite the word "context" or "Based on the provided context".
         If you find an item that belongs to a monster, state that it is an item from a monster explicitly, including its name.
 
         <context>
