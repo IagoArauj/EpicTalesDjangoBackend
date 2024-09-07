@@ -9,7 +9,7 @@ from langchain_core.output_parsers import StrOutputParser
 class AIBuilder:
     @staticmethod
     def get_response(model = 'llama3-70b-8192', temperature = 0.5, input = ''):
-        base_url = 'https://beb6-200-17-66-254.ngrok-free.app'
+        base_url = 'http://ollama:11434'
         persist_directory = './aimodule/chroma_db'
 
         embeddings = OllamaEmbeddings(model="mxbai-embed-large", base_url=base_url)

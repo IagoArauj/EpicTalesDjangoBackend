@@ -39,7 +39,7 @@ def get_3_ongoing_campaign(request: Request) -> Response:
     campaigns = Campaign.objects.filter(status='ONGOING').order_by('-id')[:3]
     
     for campaign in campaigns:
-        campaign.description = " ".join(campaign.description.split()[:20]) + " [...]" if len(campaign.description) > 20 else campaign.description
+        campaign.description = " ".join(campaign.description.split()[:10]) + " [...]" if len(campaign.description.split()) > 10 else campaign.description
     
     return Response(CampaignSerializer(campaigns, many=True).data, status=status.HTTP_200_OK)
     
