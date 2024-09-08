@@ -31,7 +31,7 @@ class Campaign(SafeDeleteModel):
 
 
 class Note(models.Model):
-    campaign = models.ForeignKey(Campaign, on_delete=models.DO_NOTHING)
+    campaign = models.ForeignKey(Campaign, on_delete=models.DO_NOTHING, related_name='notes')
     content = models.TextField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
